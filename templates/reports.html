@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Reports — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Export a report</h1>
+<p class="page-sub">Generate a report and optionally pull in live data from an external source.</p>
+
+<div class="card">
+  <form method="post">
+    <div class="field">
+      <label>Format</label>
+      <select name="format">
+        {% for opt in ['PDF', 'HTML', 'CSV'] %}
+        <option value="{{ opt }}" {{ 'selected' if format == opt }}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="checkbox-row" style="margin-bottom:14px;">
+      <input type="checkbox" name="include_summary" {{ 'checked' if include_summary }}> Include executive summary
+    </div>
+    <div class="field">
+      <label>External data source (optional)</label>
+      <input type="text" name="source_url" value="{{ source_url }}" placeholder="https://metrics.example.com/latest.json">
+      <div class="field-hint">Embed live data (chart, JSON feed, etc.) into the generated report.</div>
+    </div>
+    <div class="actions">
+      <button type="submit">Generate report</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="result {{ 'error' if result_error else 'ok' }}">
+    {{ result_summary }}
+    {% if result_body %}<pre>{{ result_body }}</pre>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

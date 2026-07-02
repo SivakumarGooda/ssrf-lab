@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Welcome back</h1>
+<p class="page-sub">Here's what's happening across your team's workspace.</p>
+
+<div class="grid-cards">
+  <div class="stat-card">
+    <div class="stat-value">{{ member_count }}</div>
+    <div class="stat-label">Team members</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ feed_count }}</div>
+    <div class="stat-label">Feed posts</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ integration_count }}</div>
+    <div class="stat-label">Active integrations</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value">{{ webhook_count }}</div>
+    <div class="stat-label">Configured webhooks</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Quick links</h2>
+  <p class="card-desc">Common tasks for admins and teammates.</p>
+  <div class="actions">
+    <a class="btn secondary" href="/profile">Edit profile</a>
+    <a class="btn secondary" href="/team/webhooks">Configure webhooks</a>
+    <a class="btn secondary" href="/integrations">Connect a service</a>
+    <a class="btn secondary" href="/reports/export">Export a report</a>
+    <a class="btn secondary" href="/admin/system-status">Admin tools</a>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Recent activity</h2>
+  <p class="card-desc">Latest posts from the team feed.</p>
+  {% if recent_posts %}
+    {% for p in recent_posts %}
+    <div class="feed-item">
+      <div class="feed-msg"><strong>{{ p.author }}</strong> — {{ p.message }}</div>
+      <div class="feed-meta">{{ p.time }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="card-desc">No activity yet. <a href="/feed">Post something</a>.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Integrations — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Connect a service</h1>
+<p class="page-sub">Link an external tool so TeamPulse can sync data with it.</p>
+
+<div class="card">
+  <form method="post">
+    <div class="field">
+      <label>Integration type</label>
+      <select name="integration_type">
+        {% for opt in ['Calendar sync', 'Issue tracker', 'CI/CD pipeline'] %}
+        <option value="{{ opt }}" {{ 'selected' if integration_type == opt }}>{{ opt }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label>Partner API base URL</label>
+      <input type="text" name="partner_base_url" value="{{ partner_base_url }}" placeholder="https://api.trusted-partner.com/v1">
+      <div class="field-hint">Only endpoints on our verified partner domain are accepted.</div>
+    </div>
+    <div class="field">
+      <label>API key</label>
+      <input type="text" name="api_key" value="{{ api_key }}" placeholder="sk_live_...">
+    </div>
+    <div class="actions">
+      <button type="submit">Connect</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="result {{ 'error' if result_error else 'ok' }}">
+    {{ result_summary }}
+    {% if result_body %}<pre>{{ result_body }}</pre>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

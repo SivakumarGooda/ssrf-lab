@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}TeamPulse{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="navbar">
+    <a class="brand" href="/">TeamPulse</a>
+    <nav>
+      <a href="/" class="{{ 'active' if active == 'dashboard' else '' }}">Dashboard</a>
+      <a href="/feed" class="{{ 'active' if active == 'feed' else '' }}">Team Feed</a>
+      <a href="/profile" class="{{ 'active' if active == 'profile' else '' }}">Profile</a>
+      <a href="/integrations" class="{{ 'active' if active == 'integrations' else '' }}">Integrations</a>
+      <a href="/team/webhooks" class="{{ 'active' if active == 'webhooks' else '' }}">Webhooks</a>
+      <a href="/reports/export" class="{{ 'active' if active == 'reports' else '' }}">Reports</a>
+      <a href="/admin/system-status" class="{{ 'active' if active == 'admin' else '' }}">Admin</a>
+    </nav>
+    <div class="workspace">Acme Corp workspace</div>
+  </div>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

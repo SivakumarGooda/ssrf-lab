@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Profile — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Your profile</h1>
+<p class="page-sub">Update how you appear to your teammates.</p>
+
+<div class="card">
+  <h2>Basic info</h2>
+  <form method="post">
+    <div class="field">
+      <label>Display name</label>
+      <input type="text" name="display_name" value="{{ display_name }}" placeholder="Jane Doe">
+    </div>
+    <div class="field">
+      <label>Personal website</label>
+      <input type="text" name="website" value="{{ website }}" placeholder="https://example.com">
+      <div class="field-hint">Shown as a link on your profile card — not fetched.</div>
+    </div>
+    <div class="field">
+      <label>Avatar</label>
+      <div style="display:flex; align-items:center; gap:14px;">
+        <span class="avatar">{{ display_name[:2].upper() if display_name else '?' }}</span>
+        <input type="file" name="avatar_file">
+      </div>
+      <div class="field-hint">Or set an avatar from a URL instead:</div>
+      <input type="text" name="avatar_url" value="{{ avatar_url }}" placeholder="https://example.com/me.jpg" style="margin-top:8px;">
+    </div>
+    <div class="actions">
+      <button type="submit">Save changes</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="result {{ 'error' if result_error else 'ok' }}">
+    {{ result_summary }}
+    {% if result_body %}<pre>{{ result_body }}</pre>{% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

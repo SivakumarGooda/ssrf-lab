@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Team Feed — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Team feed</h1>
+<p class="page-sub">Share updates with your team. Paste a link and we'll generate a preview.</p>
+
+<div class="card">
+  <form method="post">
+    <div class="field">
+      <label>Message</label>
+      <textarea name="message" placeholder="What's on your mind?">{{ message }}</textarea>
+    </div>
+    <div class="field">
+      <label>Attach a link (optional)</label>
+      <input type="text" name="link" value="{{ link }}" placeholder="https://example.com/article">
+    </div>
+    <div class="actions">
+      <button type="submit">Post</button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Recent posts</h2>
+  {% if posts %}
+    {% for p in posts %}
+    <div class="feed-item">
+      <div class="feed-msg"><strong>{{ p.author }}</strong> — {{ p.message }}</div>
+      <div class="feed-meta">{{ p.time }}{% if p.link %} · {{ p.link }}{% endif %}</div>
+      {% if p.preview %}
+      <div class="feed-preview">{{ p.preview }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="card-desc">No posts yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

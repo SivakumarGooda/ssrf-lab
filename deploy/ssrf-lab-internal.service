@@ -1,0 +1,14 @@
+[Unit]
+Description=SSRF-Lab internal services (loopback-only fake network)
+After=network.target
+
+[Service]
+Type=simple
+# Adjust User and paths to match your Pi. Assumes a venv at /opt/ssrf-lab/venv.
+User=pi
+WorkingDirectory=/opt/ssrf-lab
+ExecStart=/opt/ssrf-lab/venv/bin/python /opt/ssrf-lab/internal_services.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

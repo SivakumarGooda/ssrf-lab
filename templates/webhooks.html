@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Webhooks — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Notification webhook</h1>
+<p class="page-sub">TeamPulse will POST an event payload to this URL whenever something happens.</p>
+
+<div class="card">
+  <form method="post">
+    <div class="field">
+      <label>Webhook URL</label>
+      <input type="text" name="webhook_url" value="{{ webhook_url }}" placeholder="https://your-app.example.com/hooks/teampulse">
+      <div class="field-hint">Must be a reachable HTTPS or HTTP endpoint on your own infrastructure.</div>
+    </div>
+    <div class="field">
+      <label>Signing secret</label>
+      <input type="text" name="webhook_secret" value="{{ webhook_secret }}" placeholder="whsec_...">
+      <div class="field-hint">Sent as the X-TeamPulse-Signature header on every delivery.</div>
+    </div>
+    <div class="field">
+      <label>Events</label>
+      <div class="checkbox-row"><input type="checkbox" name="event_task_created" {{ 'checked' if event_task_created }}> Task created</div>
+      <div class="checkbox-row"><input type="checkbox" name="event_task_completed" {{ 'checked' if event_task_completed }}> Task completed</div>
+    </div>
+    <div class="actions">
+      <button type="submit" name="action" value="save">Save</button>
+      <button type="submit" name="action" value="test" class="secondary">Send test notification</button>
+    </div>
+  </form>
+
+  {% if result %}
+  <div class="result {{ 'error' if result_error else 'ok' }}">{{ result }}</div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Inbound webhook receiver</h2>
+  <p class="card-desc">
+    Need TeamPulse to receive webhooks from another tool instead? Point it at your
+    unique inbound URL below — every request is logged and viewable as JSON.
+  </p>
+  <p class="card-desc">
+    Endpoint: <code>/webhooks/inbound/&lt;your-token&gt;</code> ·
+    Events log: <code>/webhooks/inbound/&lt;your-token&gt;/events</code>
+  </p>
+</div>
+{% endblock %}

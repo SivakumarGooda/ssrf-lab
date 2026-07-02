@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Admin — TeamPulse{% endblock %}
+{% block content %}
+<h1 class="page-title">Admin tools</h1>
+<p class="page-sub">Operational utilities for workspace admins.</p>
+
+<div class="card">
+  <h2>Service health checker</h2>
+  <p class="card-desc">Check whether TeamPulse can reach a given host/port before enabling an integration.</p>
+  <form method="post" action="/admin/system-status">
+    <div class="field">
+      <label>Target (host:port)</label>
+      <input type="text" name="target" value="{{ target }}" placeholder="127.0.0.1:7004">
+    </div>
+    <div class="field">
+      <label>Note (optional)</label>
+      <input type="text" name="label" value="{{ label }}" placeholder="e.g. pre-flight check for new integration">
+    </div>
+    <div class="actions">
+      <button type="submit">Check connectivity</button>
+    </div>
+  </form>
+  {% if status_result %}
+  <div class="result {{ 'error' if status_result.state == 'error' else 'ok' }}">
+    <strong>{{ status_result.target }}</strong>
+    <span class="status-pill {{ status_result.state }}">{{ status_result.state }}</span>
+    — {{ status_result.elapsed_ms }}ms
+  </div>
+  {% endif %}
+</div>
+
+<div class="card">
+  <h2>Public page cache</h2>
+  <p class="card-desc">
+    Force-refresh the cached copy of your workspace's public status page after a content change.
+  </p>
+  <form method="post" action="/admin/refresh-cache">
+    <div class="field">
+      <label>Cache TTL override (minutes, optional)</label>
+      <input type="number" name="cache_ttl" value="{{ cache_ttl }}" placeholder="15">
+    </div>
+    <div class="actions">
+      <button type="submit">Refresh now</button>
+    </div>
+  </form>
+  {% if cache_result %}
+  <div class="result {{ 'error' if cache_error else 'ok' }}">
+    {{ cache_result }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
