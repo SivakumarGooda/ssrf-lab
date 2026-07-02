@@ -114,8 +114,6 @@ find the vulnerable surface itself.
 | Admin tools (health checker + cache refresh) | `/admin/system-status`, `/admin/refresh-cache` |
 | Inbound webhook receiver (OOB confirmation) | `/webhooks/inbound/<token>` |
 
-Full details — which fields are vulnerable, which are decoys, and exact
-payloads — are in **[ANSWER-KEY.md](ANSWER-KEY.md)**.
 
 ## Extending it
 
